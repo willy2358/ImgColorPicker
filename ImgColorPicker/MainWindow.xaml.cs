@@ -58,21 +58,32 @@ namespace ImgColorPicker
             }
         }
 
+        void ShowPixelColor()
+        {
+            int x = 0;
+            int y = 0;
+            int.TryParse(this.txtX.Text, out x);
+            int.TryParse(this.txtY.Text, out y);
+
+            string strColor = "";
+            if (_curBitmap != null)
+            {
+                var color = _curBitmap.GetPixel(x, y);
+                strColor = string.Format($"R:{color.R},G:{color.G},B:{color.B},A:{color.A}");
+            }
+
+            this.txtColorValues.Text += string.Format($"X:{x},Y:{y},color:{strColor}\n");
+        }
+
         private void img_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount >= 2)
             {
                 var pt = e.GetPosition(this.img);
+                this.txtX.Text = string.Format("{0}", (int)pt.X);
+                this.txtY.Text = string.Format("{0}", (int)pt.Y);
 
-                string strColor = "";
-                int x = (int)pt.X;
-                int y = (int)pt.Y;
-                if (_curBitmap != null)
-                {
-                    var color = _curBitmap.GetPixel(x, y);
-                    strColor = string.Format($"R:{color.R},G:{color.G},B:{color.B},A:{color.A}");
-                }                
-                this.txtColorValues.Text += string.Format($"X:{x},Y:{y},color:{strColor}\n");
+                ShowPixelColor();
             }
         }
 
@@ -97,6 +108,78 @@ namespace ImgColorPicker
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        private void btnPreX_Click(object sender, RoutedEventArgs e)
+        {
+            string sX = this.txtX.Text;
+            int nX = 0;
+            int.TryParse(sX, out nX);
+            nX -= 1;
+            if (nX < 0)
+            {
+                nX = 0;
+            }
+            this.txtX.Text = string.Format("{0}", nX);
+            ShowPixelColor();
+        }
+
+        private void btnNextX_Click(object sender, RoutedEventArgs e)
+        {
+            string sX = this.txtX.Text;
+            int nX = 0;
+            int.TryParse(sX, out nX);
+            nX += 1;
+            if (nX > this.img.Width)
+            {
+                nX = (int)this.img.Width;
+            }
+            this.txtX.Text = string.Format("{0}", nX);
+            ShowPixelColor();
+        }
+
+        private void btnPreY_Click(object sender, RoutedEventArgs e)
+        {
+            string sY = this.txtY.Text;
+            int nY = 0;
+            int.TryParse(sY, out nY);
+            nY -= 1;
+            if (nY < 0)
+            {
+                nY = 0;
+            }
+            this.txtY.Text = string.Format("{0}", nY);
+            ShowPixelColor();
+        }
+
+        private void btnNextY_Click(object sender, RoutedEventArgs e)
+        {
+            string sY = this.txtY.Text;
+            int nY = 0;
+            int.TryParse(sY, out nY);
+            nY += 1;
+            if (nY > this.img.Height)
+            {
+                nY = (int)this.img.Height;
+            }
+            this.txtY.Text = string.Format("{0}", nY);
+            ShowPixelColor();
+        }
+
+        private void txtX_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ShowPixelColor();
+            }
+        }
+
+        private void txtY_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ShowPixelColor();
             }
         }
     }

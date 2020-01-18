@@ -34,6 +34,18 @@
 
         <TextBlock Grid.Row="2" Margin="0,10,0,0" x:Name="txtImgSize"></TextBlock>
 
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" x:Name="txtColorValues"  Margin="5,0" Width="240" ></TextBox>
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" x:Name="txtColorValues"  Margin="5,0" Width="240" ></TextBox>
+
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+            <TextBlock VerticalAlignment="Center">X:</TextBlock>
+            <Button x:Name="btnPreX" Width="25" Content="-" Click="btnPreX_Click"></Button>
+            <TextBox x:Name="txtX" Width="35" KeyDown="txtX_KeyDown"></TextBox>
+            <Button x:Name="btnNextX" Width="25" Content="+" Click="btnNextX_Click"></Button>
+
+            <TextBlock Margin="30,0,0,0" VerticalAlignment="Center">Y:</TextBlock>
+            <Button x:Name="btnPreY" Width="25" Content="-" Click="btnPreY_Click"></Button>
+            <TextBox x:Name="txtY" Width="35" KeyDown="txtY_KeyDown"></TextBox>
+            <Button x:Name="btnNextY" Width="25" Content="+" Click="btnNextY_Click"></Button>
+        </StackPanel>
     </Grid>
 </Window>
