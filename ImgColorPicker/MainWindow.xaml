@@ -1,51 +1,171 @@
-<Window x:Class="ImgColorPicker.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ImgColorPicker"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+<Window
+    x:Class="ImgColorPicker.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ImgColorPicker"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    Title="ImgColorPicker"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0">Image:</TextBlock>
-            <TextBox x:Name="imgFile" Grid.Column="1" Margin="10,0,10,0" TextChanged="imgFile_TextChanged"></TextBox>
-            <Button x:Name="btnLoadImage" Grid.Column="2" Width="50" Click="btnLoadImage_Click">...</Button>
+            <TextBox
+                x:Name="imgFile"
+                Grid.Column="1"
+                Margin="10,0,10,0"
+                TextChanged="imgFile_TextChanged" />
+            <Button
+                x:Name="btnLoadImage"
+                Grid.Column="2"
+                Width="50"
+                Click="btnLoadImage_Click">
+                ...
+            </Button>
         </Grid>
-        <Grid Grid.Row="1" Margin="0,10,0,0" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" >
-            <Border x:Name="imgRect" BorderBrush="Blue" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto" Height="auto">
-                <Image x:Name="img" HorizontalAlignment="Left" Height="100" Width="100" Stretch="None" VerticalAlignment="Top" MouseLeftButtonDown="img_MouseLeftButtonDown"  ></Image>
+        <Grid
+            Grid.Row="1"
+            Margin="0,10,0,0"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <Border
+                x:Name="imgRect"
+                Width="auto"
+                Height="auto"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                BorderBrush="Blue"
+                BorderThickness="2">
+                <Grid x:Name="gridImgFrame">
+                    <Image
+                        x:Name="img"
+                        Width="100"
+                        Height="100"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        MouseLeftButtonDown="img_MouseLeftButtonDown"
+                        Stretch="None" />
+                    <Canvas
+                        x:Name="targetPixel"
+                        Width="32"
+                        Height="32"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top">
+                        <Line
+                            x:Name="vertLine1"
+                            Stroke="Red"
+                            StrokeThickness="1"
+                            X1="16"
+                            X2="16"
+                            Y1="0"
+                            Y2="15" />
+                        <Line
+                            x:Name="vertLine2"
+                            Stroke="Red"
+                            StrokeThickness="1"
+                            X1="16"
+                            X2="16"
+                            Y1="17"
+                            Y2="32" />
+                        <Line
+                            x:Name="horzLine1"
+                            Stroke="Green"
+                            StrokeThickness="1"
+                            X1="0"
+                            X2="15"
+                            Y1="16"
+                            Y2="16" />
+                        <Line
+                            x:Name="horzLine2"
+                            Stroke="Green"
+                            StrokeThickness="1"
+                            X1="17"
+                            X2="32"
+                            Y1="16"
+                            Y2="16" />
+                    </Canvas>
+
+                </Grid>
             </Border>
         </Grid>
 
-        <TextBlock Grid.Row="2" Margin="0,10,0,0" x:Name="txtImgSize"></TextBlock>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Label>Cross Cursor:</Label>
+            <!--<Button
+                x:Name="btnSetIndicatorColor"
+                Width="100"
+                Click="BtnSetIndicatorColor_Click">
+                cross cursor
+            </Button>-->
+            <xctk:ColorPicker
+                x:Name="colorPicker"
+                Width="100"
+                IsOpen="False"
+                SelectedColorChanged="ColorPicker_SelectedColorChanged" />
+            <TextBlock x:Name="txtImgSize" Margin="100,10,0,0" />
+        </StackPanel>
 
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" x:Name="txtColorValues"  Margin="5,0" Width="240" ></TextBox>
 
-        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+        <TextBox
+            x:Name="txtColorValues"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Width="240"
+            Margin="5,0" />
+
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="1"
+            Orientation="Horizontal">
             <TextBlock VerticalAlignment="Center">X:</TextBlock>
-            <Button x:Name="btnPreX" Width="25" Content="-" Click="btnPreX_Click"></Button>
-            <TextBox x:Name="txtX" Width="35" KeyDown="txtX_KeyDown"></TextBox>
-            <Button x:Name="btnNextX" Width="25" Content="+" Click="btnNextX_Click"></Button>
+            <Button
+                x:Name="btnPreX"
+                Width="25"
+                Click="btnPreX_Click"
+                Content="-" />
+            <TextBox
+                x:Name="txtX"
+                Width="35"
+                KeyDown="txtX_KeyDown" />
+            <Button
+                x:Name="btnNextX"
+                Width="25"
+                Click="btnNextX_Click"
+                Content="+" />
 
             <TextBlock Margin="30,0,0,0" VerticalAlignment="Center">Y:</TextBlock>
-            <Button x:Name="btnPreY" Width="25" Content="-" Click="btnPreY_Click"></Button>
-            <TextBox x:Name="txtY" Width="35" KeyDown="txtY_KeyDown"></TextBox>
-            <Button x:Name="btnNextY" Width="25" Content="+" Click="btnNextY_Click"></Button>
+            <Button
+                x:Name="btnPreY"
+                Width="25"
+                Click="btnPreY_Click"
+                Content="-" />
+            <TextBox
+                x:Name="txtY"
+                Width="35"
+                KeyDown="txtY_KeyDown" />
+            <Button
+                x:Name="btnNextY"
+                Width="25"
+                Click="btnNextY_Click"
+                Content="+" />
         </StackPanel>
     </Grid>
 </Window>
