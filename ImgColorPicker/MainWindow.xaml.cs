@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Xceed.Wpf.Toolkit;
 
 namespace ImgColorPicker
 {
@@ -47,7 +48,7 @@ namespace ImgColorPicker
             {
                 _curBitmap = null;
                 this.img.Source = new ImageSourceConverter().ConvertFrom(this.imgFile.Text) as ImageSource;
-                string size = string.Format("width:{0}, height:{1}", img.Source.Width, img.Source.Height);
+                string size = string.Format("width:{0}, height:{1}", (int)img.Source.Width, (int)img.Source.Height);
                 this.img.Width = img.Source.Width;
                 this.img.Height = img.Source.Height;
                 this.imgRect.Width = this.img.Width + 2;
@@ -64,6 +65,11 @@ namespace ImgColorPicker
             int y = 0;
             int.TryParse(this.txtX.Text, out x);
             int.TryParse(this.txtY.Text, out y);
+
+            double xOffset = this.targetPixel.Width / 2;
+            double yOffset = this.targetPixel.Height / 2;
+            this.targetPixel.Margin = new Thickness(x - xOffset, y - yOffset, 0, 0);
+
 
             string strColor = "";
             if (_curBitmap != null)
@@ -181,6 +187,25 @@ namespace ImgColorPicker
             {
                 ShowPixelColor();
             }
+        }
+
+        private void BtnSetIndicatorColor_Click(object sender, RoutedEventArgs e)
+        {
+            this.colorPicker.IsOpen = !this.colorPicker.IsOpen;
+        }
+
+        private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            if (this.colorPicker.SelectedColor.HasValue)
+            {
+                var brush = new SolidColorBrush(this.colorPicker.SelectedColor.Value);
+                this.vertLine1.Stroke = brush;
+                this.vertLine2.Stroke = brush;
+
+                this.horzLine1.Stroke = brush;
+                this.horzLine2.Stroke = brush;
+            }
+            
         }
     }
 }
